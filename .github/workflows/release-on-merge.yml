@@ -1,0 +1,50 @@
+name: Release on PR Merge to Master
+
+on:
+ pull_request:
+ types:
+ - closed
+ branches:
+ - master
+
+jobs:
+ build-and-release:
+ if: github.event.pull_request.merged == true
+ runs-on: windows-latest
+ env:
+ PROJECT_PATH: ServiceBus_HttpClient/ServiceBus_HttpClient.csproj
+ DIST_DIR: dist
+ steps:
+ - name: Checkout code
+ uses: actions/checkout@v4
+
+ - name: Setup .NET
+ uses: actions/setup-dotnet@v4
+ with:
+ dotnet-version: '8.0.x'
+
+ - name: Publish single-file executable
+ run: |
+ dotnet publish ${{ env.PROJECT_PATH }} -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true -o ${{ env.DIST_DIR }}
+
+ - name: Get current date and time
+ id: datetime
+ run: |
+ echo "date=$(Get-Date -Format 'yyyyMMdd-HHmmss')" >> $env:GITHUB_OUTPUT
+ shell: pwsh
+
+ - name: Create release tag
+ run: |
+ git config user.name "github-actions"
+ git config user.email "github-actions@github.com"
+ git tag ServiceBusTester_HttpClient-${{ steps.datetime.outputs.date }}
+ git push origin ServiceBusTester_HttpClient-${{ steps.datetime.outputs.date }}
+
+ - name: Create GitHub Release
+ uses: softprops/action-gh-release@v2
+ with:
+ tag_name: ServiceBusTester_HttpClient-${{ steps.datetime.outputs.date }}
+ name: ServiceBusTester_HttpClient Release ${{ steps.datetime.outputs.date }}
+ files: ${{ env.DIST_DIR }}/ServiceBus_HttpClient.exe
+ env:
+ GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
