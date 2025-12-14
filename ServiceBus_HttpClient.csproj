@@ -8,6 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="curl.txt" />
+    <None Remove="curl_macOS.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include=".github\workflows\release-on-merge.yml" />
   </ItemGroup>
 
