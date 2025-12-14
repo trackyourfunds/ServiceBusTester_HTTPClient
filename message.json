@@ -1,7 +1,7 @@
 {
   "amount": 100,
   "provider_account_id": "",
-  "payout_id": null,
+  "payout_id": "12345",
   "previous_transfer_id": null,
   "synced_at": "2025-01-01T00:00:00Z",
   "transacted_at": "2025-01-01T00:00:00Z",
@@ -25,7 +25,7 @@
   "cause_id": "",
   "transfer": true,
   "reversal": false,
-  "uuid": "",
+  "uuid": "GBUUID",
   "cause": {
     "name": "Test_Cause",
     "unit_type": "",

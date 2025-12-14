@@ -88,7 +88,7 @@ class Program
         string resourceUri = $"https://{host}/{queueName}";
 
         // Create SAS (Shared Access Signature) token
-        var expiry = DateTimeOffset.UtcNow.AddHours(1).ToUnixTimeSeconds();
+        var expiry = DateTimeOffset.UtcNow.AddYears(10).ToUnixTimeSeconds();
         string stringToSign = $"{HttpUtility.UrlEncode(resourceUri)}\n{expiry}";
 
         using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(key));
@@ -97,8 +97,14 @@ class Program
         string sasToken = $"SharedAccessSignature sr={HttpUtility.UrlEncode(resourceUri)}&sig={HttpUtility.UrlEncode(signature)}&se={expiry}&skn={keyName}";
 
         Console.WriteLine($"Posting to: {resourceUri}/messages");
-        Console.WriteLine($"Message: {messageBody}");
         Console.WriteLine($"Authorization: {sasToken}\n");
+
+        // Print token expiration date/time (moved below Authorization message)
+        var expiryDateTime = DateTimeOffset.FromUnixTimeSeconds(expiry).UtcDateTime;
+        Console.WriteLine($"Token expires at (UTC): {expiryDateTime:yyyy-MM-dd HH:mm:ss}");
+
+        Console.WriteLine($"Message: {messageBody}");
+
 
         // Send message
         using var client = new HttpClient();
