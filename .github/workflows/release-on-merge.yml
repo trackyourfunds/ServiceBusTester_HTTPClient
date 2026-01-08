@@ -21,11 +21,11 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '9.0.x'
 
       - name: Publish single-file executable
         run: |
-          dotnet publish ${{ env.PROJECT_PATH }} -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true -o ${{ env.DIST_DIR }}
+          dotnet publish ${{ env.PROJECT_PATH }} -c Release -r win-x64 /p:PublishAot=true -o ${{ env.DIST_DIR }}
 
       - name: Copy configuration files to dist
         run: |
