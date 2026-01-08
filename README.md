@@ -10,23 +10,19 @@ ServiceBus HTTP Client allows you to:
 - Test message processing workflows
 - Use custom JSON message templates
 
-## Prerequisites
-
-Before using this tool, you need:
-- An Azure Service Bus namespace with at least one queue set up
-- A Service Bus connection string (available from the Azure Portal)
-- Send permissions on the queue
-
 ## Getting Started
 
 ### Step 1: Download the Application
 
 1. Go to the [Releases](https://github.com/trackyourfunds/ServiceBusTester_HTTPClient/releases) page
-2. Download the latest release ZIP file
-3. Extract all files to a folder on your computer
+2. Download the following files from the latest release:
+   - `ServiceBus_HttpClient.exe` - The application (standalone, no installation needed)
+   - `ServiceBus_HttpClient.appsettings.json` - Configuration file
+   - `message.json` - Sample message template
+3. Save all three files to the same folder on your computer
 
 The download includes:
-- `ServiceBus_HttpClient.exe` - The application
+- `ServiceBus_HttpClient.exe` - The application (standalone, no installation needed)
 - `ServiceBus_HttpClient.appsettings.json` - Configuration file
 - `message.json` - Sample message template
 
@@ -38,9 +34,7 @@ Open `ServiceBus_HttpClient.appsettings.json` in a text editor (like Notepad) an
 {
   "ServiceBus": {
     "ConnectionString": "YOUR_CONNECTION_STRING_HERE",
-    "QueueName": "YOUR_QUEUE_NAME_HERE",
-    "TopicName": "",
-    "Message": ""
+    "QueueName": "YOUR_QUEUE_NAME_HERE"
   }
 }
 ```
@@ -69,23 +63,61 @@ Edit `message.json` with the message content you want to send. This file must co
 
 You can customize the rest of the JSON structure based on your needs.
 
+## How to Run the Application
+
+### Option 1: Double-Click (Simple)
+Simply double-click `ServiceBus_HttpClient.exe` to run it with the default settings.
+
+### Option 2: Command Prompt
+
+1. Open Command Prompt (press `Win + R`, type `cmd`, press Enter)
+2. Navigate to the folder containing the files:
+   ```cmd
+   cd C:\path\to\download\folder
+   ```
+3. Run the application:
+   ```cmd
+   ServiceBus_HttpClient.exe
+   ```
+
+### Option 3: PowerShell
+
+1. Open PowerShell (press `Win + X`, select "Windows PowerShell")
+2. Navigate to the folder containing the files:
+   ```powershell
+   cd C:\path\to\download\folder
+   ```
+3. Run the application:
+   ```powershell
+   .\ServiceBus_HttpClient.exe
+   ```
+
 ## How to Use
 
 ### Sending a Message with the Default Template
 
-1. Open Command Prompt or PowerShell
-2. Navigate to the folder where you extracted the files
-3. Run the command:
-   ```
-   ServiceBus_HttpClient.exe
-   ```
+**Command Prompt:**
+```cmd
+ServiceBus_HttpClient.exe
+```
+
+**PowerShell:**
+```powershell
+.\ServiceBus_HttpClient.exe
+```
 
 ### Using a Custom Message File
 
 If you want to use a different message file:
 
-```
+**Command Prompt:**
+```cmd
 ServiceBus_HttpClient.exe -message my-custom-message.json
+```
+
+**PowerShell:**
+```powershell
+.\ServiceBus_HttpClient.exe -message my-custom-message.json
 ```
 
 ## Understanding the Results
@@ -146,10 +178,9 @@ Status: 401 Unauthorized
 - **Multiple Messages**: You can create multiple JSON files for different test scenarios
 - **Keep Backups**: Save copies of your configuration files before making changes
 - **Security**: Keep your connection string secure - don't share it publicly
+- **No Installation Required**: This is a standalone executable - no .NET runtime installation needed
 
 
 ## Additional Resources
 
-- [Azure Service Bus Documentation](https://docs.microsoft.com/azure/service-bus-messaging/)
 - [JSON Validator](https://jsonlint.com) - Check if your JSON is valid
-- [GitHub Issues](https://github.com/trackyourfunds/ServiceBusTester_HTTPClient/issues) - Report bugs or request features

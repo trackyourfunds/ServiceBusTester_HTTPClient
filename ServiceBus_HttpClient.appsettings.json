@@ -1,8 +1,6 @@
 {
   "ServiceBus": {
     "ConnectionString": "",
-    "TopicName": "",
     "QueueName": "",
-    "Message": ""
   }
 }
