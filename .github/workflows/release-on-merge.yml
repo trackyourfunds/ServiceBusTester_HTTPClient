@@ -27,6 +27,12 @@ jobs:
         run: |
           dotnet publish ${{ env.PROJECT_PATH }} -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true -o ${{ env.DIST_DIR }}
 
+      - name: Copy configuration files to dist
+        run: |
+          Copy-Item -Path "ServiceBus_HttpClient.appsettings.json" -Destination "${{ env.DIST_DIR }}/ServiceBus_HttpClient.appsettings.json"
+          Copy-Item -Path "message.json" -Destination "${{ env.DIST_DIR }}/message.json"
+        shell: pwsh
+
       - name: Get current date and time
         id: datetime
         run: |
@@ -45,6 +51,9 @@ jobs:
         with:
           tag_name: ServiceBusTester_HttpClient-${{ steps.datetime.outputs.date }}
           name: ServiceBusTester_HttpClient Release ${{ steps.datetime.outputs.date }}
-          files: ${{ env.DIST_DIR }}/ServiceBus_HttpClient.exe
+          files: |
+            ${{ env.DIST_DIR }}/ServiceBus_HttpClient.exe
+            ${{ env.DIST_DIR }}/ServiceBus_HttpClient.appsettings.json
+            ${{ env.DIST_DIR }}/message.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
