@@ -1,8 +1,18 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Web;
 using Microsoft.Extensions.Configuration;
+
+// JSON Source Generation Context for Native AOT
+[JsonSerializable(typeof(Payout))]
+[JsonSerializable(typeof(Cause))]
+[JsonSerializable(typeof(StoreItem))]
+[JsonSerializable(typeof(Category))]
+internal partial class AppJsonSerializerContext : JsonSerializerContext
+{
+}
 
 class Program
 {
@@ -38,8 +48,8 @@ class Program
             {
                 JsonDocument.Parse(fileContent);
                 
-                // Deserialize to payoutItem
-                payoutItem = JsonSerializer.Deserialize<Payout>(fileContent);
+                // Deserialize to payoutItem using source-generated context
+                payoutItem = JsonSerializer.Deserialize(fileContent, AppJsonSerializerContext.Default.Payout);
                 
                 messageBody = fileContent;
             }
